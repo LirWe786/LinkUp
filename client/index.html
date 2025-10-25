@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style/style.css">
+    <title>LinkUp</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script defer src="./index.js"></script>
+
+</head>
+
+<body>
+    <div class="root">
+        <div class="container">
+            <div id="app">
+                <div id="side-panel">
+                    <div class="logo-div">
+                        <img src="./assets/logo2.png" id='logo' alt="">
+                    </div>
+                    <div class="account-div">
+                        <button class="side-panel-btn" id="account-btn">
+                            <img id="account-btn-img" src="./assets/account.png" alt="">
+                            Accouunt
+                        </button>
+                    </div>
+                    <div class="settings-div">
+                        <button class="side-panel-btn" id="settings-btn">
+                            <img id="settings-btn-img" src="./assets/settings.png" alt="">
+                            Settings
+                        </button>
+                    </div>
+
+                </div>
+                <div id="chat-container">
+                    <div id="contacts-container">
+                        <div class="input-container">
+                            <div id="contacts-container-input-div">
+                                <img id="contacts-container-input-img" src="./assets/search.png" alt="" id="search-img">
+                                <input type="text" name="" id="contacts-container-input" placeholder="Search">
+                            </div>
+                        </div>
+                        <div id="contacts-container-display">
+                            <div class="contact-chat-div" id="first-chat">
+                                <img src="./assets/icons8-account-90.png" alt="">
+                                <div class="contact-chat-names">
+                                    <p class="chat-name">Work chat</p>
+                                    <p class="description">Very interesting..... </p>
+                                </div>
+                                <div class="contact-chat-time">
+                                    <p class="chat-time"><span>14</span>м</p>
+                                    <img src="./assets/double-ticks.png" class="lastMessage-status-img" alt="">
+                                </div>
+                            </div>
+                            <div class="contact-chat-div">
+                                <img src="./assets/icons8-account-90.png" alt="">
+                                <div class="contact-chat-names">
+                                    <p class="chat-name">School chat</p>
+                                    <p class="description">Very interesting..... </p>
+                                </div>
+                                <div class="contact-chat-time">
+                                    <p class="chat-time"><span>14</span>м</p>
+                                    <img src="./assets/double-ticks.png" class="lastMessage-status-img" alt="">
+                                </div>
+                            </div>
+                            <div class="contact-chat-div">
+                                <img src="./assets/icons8-account-90.png" alt="">
+                                <div class="contact-chat-names">
+                                    <p class="chat-name">Game chat</p>
+                                    <p class="description">Very interesting..... </p>
+                                </div>
+                                <div class="contact-chat-time">
+                                    <p class="chat-time"><span>14</span>м</p>
+                                    <img src="./assets/double-ticks.png" class="lastMessage-status-img" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="chat-div">
+                        <div id="chat-header">
+                            <div class="chat-header-name">
+                                <p class="header-name-p">JoJo's Bizarre Adventure</p>
+                                <p class="header-description-p"><span>45 </span>members,<span> 24 </span>online</p>
+                            </div>
+                            <div class="chat-header-functions">
+                                <button id="menu-btn">
+                                    <img id="menu-btn-img" src="./assets/menu.png" alt="">
+                                </button>
+                            </div>
+                        </div>
+                        <ul id="chat-display">
+                            
+                        </ul>
+                        <div class="app-chat-input">
+                            <form id="chat-form" action="">
+                                <input type="text" name="" id="send-msg" placeholder="You're message">
+                                <button type="button" id="voice-message-btn">
+                                    <img src="./assets/mic.svg" alt=""></button>
+
+                            </form>
+                        </div>
+                        <div id="voice-message-back">
+                            <div id="voice-message-window">
+                                <div id="micro-circle">
+                                    <img src="./assets/mic.svg" id="voice-window-img" alt="">
+                                </div>
+                                <div id="timer-div"> <span id="timer-span">00:01</span></div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
