@@ -392,7 +392,10 @@ input::placeholder {
     display: flex;
     flex-direction: column;
     width: 90%;
-
+    /* word-break: break-all; */
+    overflow-wrap:break-word;
+    /* white-space: pre-wrap; */
+    /* hyphens: auto; */
 
 }
 
@@ -410,13 +413,13 @@ input::placeholder {
 }
 
 .message-name {
-    font-size: 16px;
+    font-size: 20px;
     padding-bottom: 10px;
     color: #EAEEEF;
 }
 
 .message-text {
-    font-size: 14px;
+    font-size: 18px;
     color: #AABBBD;
     height: 50%;
 
@@ -432,8 +435,8 @@ input::placeholder {
 .voice-play-btn {
     min-width: 20px;
     min-height: 20px;
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     border: none;
     background-color: #AABBBD;
@@ -618,7 +621,7 @@ input::placeholder {
     }
 
     #chat-display {
-        margin-top: 10px;
+        margin-top: 20px;
         width: 98%;
         height: 80%;
         gap: 30px;
@@ -627,5 +630,37 @@ input::placeholder {
 
     .message {
         min-width: 60%;
+        max-width: 80%;
     }
+
+    #voice-message-window {
+        position: relative;
+        width: 42%;
+        height: 24%;
+        background-color: #242526;
+        border-radius: 7px;
+        left: calc(50% - 21%);
+        top: calc(50% - 12%);
+    }
+
+    .voice-message {
+        min-width: 80%;
+    }
+
+    .voice-length-div {
+        width: 70%;
+        margin-left: 5px;
+
+    }
+    .message-name {
+    font-size: 16px;
+
+}
+
+.message-text {
+    font-size: 14px;
+
+
+}
+
 }

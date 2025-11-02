@@ -2,23 +2,47 @@ const voiceMessageBack = document.getElementById('voice-message-back');
 const voiceMessageBtn = document.getElementById('voice-message-btn');
 const timerSpan = document.getElementById('timer-span');
 const chatDiv = document.getElementById('chat-display')
-let timerState = false;
-
-const socket = io();
-
-let mediaRecorder;
-let audioChunks = [];
-
-let isMIcroOn = false;
-let name = prompt('Ваше имя')
-socket.emit('set username', name)
-
 const form = document.getElementById('chat-form');
 const msgInp = document.getElementById('send-msg');
 
+const socket = io();
 
-function changeTimeLine(elem, parent, audio) {
+let timerState = false;
+let mediaRecorder;
+let audioChunks = [];
+let isMIcroOn = false;
+
+let name = prompt('Ваше имя')
+socket.emit('set username', name)
+
+//функции
+function round(num) {
+    if (num < 10) {
+        return `0${num}`
+    } else {
+        return num
+    }
+}
+function timer() {
+    clearInterval()
+    let i = 0;
+    timerSpan.innerText = '00:00';
+    const intervalId = setInterval(() => {
+        if (!timerState) {
+            clearInterval(intervalId);
+            return;
+        }
+
+        i++;
+        let minutes = Math.floor(i / 60);
+        let seconds = i % 60;
+        timerSpan.innerText = `${round(minutes)}:${round(seconds)}`;
+    }, 1000);
+}
+
+function changeTimeLine(elem, audio) {
     const maxWidth = 100;
+    console.log(elem, audio)
     if (audio._intervalId) {
         clearInterval(audio._intervalId);
     }
@@ -33,9 +57,9 @@ function changeTimeLine(elem, parent, audio) {
             clearInterval(audio._intervalId);
             elem.style.width = 0;
         }
-    }, 200); 
-}
+    }, 200);
 
+}
 
 function createTxtMessage(msg) {
     msgInp.value = ''
@@ -129,60 +153,31 @@ function createAudioMessasge(msg) {
 
     nameSpan.innerText = firstname;
     timeSpan.innerText = date.getMinutes() > 9 ? `${date.getHours()}:${date.getMinutes()}` : `${date.getHours()}:0${date.getMinutes()}`
+
+    //events for audio
+
     voicePlayBtn.addEventListener('click', () => {
         if (isMIcroOn) {
-            voiceImg.src = './assets/play.svg';
-            isMIcroOn = false;
             audio.pause()
 
         } else {
-            voiceImg.src = './assets/pause.svg';
-            isMIcroOn = true;
             audio.play()
-            changeTimeLine(timeLine, lengthLine, audio)
+            changeTimeLine(timeLine, audio)
 
         }
     })
+    audio.addEventListener('ended', () => {
+        voiceImg.src = './assets/play.svg';
+        isMIcroOn = false;
+    })
+    audio.addEventListener('play', () => {
+        voiceImg.src = './assets/pause.svg';
+        isMIcroOn = true;
+    })
+
+
 }
-
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    socket.emit('chat message', msgInp.value)
-})
-
-socket.on('chat message', (msg) => {
-    createTxtMessage(msg)
-})
-socket.on('voice message', (msg) => {
-    createAudioMessasge(msg)
-})
-
-function round(num) {
-    if (num < 10) {
-        return `0${num}`
-    } else {
-        return num
-    }
-}
-function timer() {
-    clearInterval()
-    let i = 0;
-    timerSpan.innerText = '00:00';
-    const intervalId = setInterval(() => {
-        if (!timerState) {
-            clearInterval(intervalId);
-            return;
-        }
-
-        i++;
-        let minutes = Math.floor(i / 60);
-        let seconds = i % 60;
-        timerSpan.innerText = `${round(minutes)}:${round(seconds)}`;
-    }, 1000);
-}
-
-
-
+//events
 voiceMessageBtn.addEventListener('click', () => {
     timerState = true;
     voiceMessageBack.style.display = 'block';
@@ -214,5 +209,28 @@ voiceMessageBtn.addEventListener('click', async () => {
     } catch (error) {
         console.log(error)
     }
+})
+window.addEventListener('resize', function () {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    console.log(`Размер окна просмотра: ${width}x${height}`);
+    if (window.innerWidth < 480) {
+
+    }
+});
+
+
+//server
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    socket.emit('chat message', msgInp.value)
+})
+
+socket.on('chat message', (msg) => {
+    createTxtMessage(msg)
+
+})
+socket.on('voice message', (msg) => {
+    createAudioMessasge(msg)
 })
 
