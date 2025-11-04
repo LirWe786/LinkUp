@@ -174,6 +174,10 @@ function createAudioMessasge(msg) {
         voiceImg.src = './assets/pause.svg';
         isMIcroOn = true;
     })
+    audio.addEventListener('pause', () => {
+        voiceImg.src = './assets/play.svg';
+        isMIcroOn = false;
+    })
 
 
 }
