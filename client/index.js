@@ -88,6 +88,7 @@ function createTxtMessage(msg) {
     msgSpan.innerText = message;
     timeSpan.innerText = date.getMinutes() > 10 ? `${date.getHours()}:${date.getMinutes()}` : `${date.getHours()}:0${date.getMinutes()}`
 }
+
 function createAudioMessasge(msg) {
 
     audioChunks = [];
@@ -193,6 +194,7 @@ voiceMessageBack.addEventListener('click', () => {
     voiceMessageBack.style.display = 'none';
     mediaRecorder.stop();
 })
+
 voiceMessageBtn.addEventListener('click', async () => {
 
     try {
@@ -214,6 +216,8 @@ voiceMessageBtn.addEventListener('click', async () => {
         console.log(error)
     }
 })
+
+
 window.addEventListener('resize', function () {
     const width = window.innerWidth;
     const height = window.innerHeight;
@@ -222,7 +226,6 @@ window.addEventListener('resize', function () {
 
     }
 });
-
 
 //server
 form.addEventListener('submit', (e) => {
@@ -234,6 +237,7 @@ socket.on('chat message', (msg) => {
     createTxtMessage(msg)
 
 })
+
 socket.on('voice message', (msg) => {
     createAudioMessasge(msg)
 })
