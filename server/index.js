@@ -26,11 +26,11 @@ io.on('connection', (socket) => {
     }
     io.emit('chat message', user)
   })
-  socket.on('voice message', (url) => {
+  socket.on('voice message', (blob) => {
     console.log(username)
     const user = {
       firstname: username,
-      message: url
+      message: blob
     }
     io.emit('voice message', user)
   })
