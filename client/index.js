@@ -90,13 +90,15 @@ function createTxtMessage(msg) {
 }
 
 function createAudioMessasge(msg) {
-
     audioChunks = [];
     const { firstname, message } = msg
 
     let date = new Date;
-    let audio = document.createElement('audio')
-    audio.src = message;
+    let audio = document.createElement('audio');
+
+    const newBlob = new Blob([message], { type: 'audio/webm' });
+    const audioUrl = URL.createObjectURL(newBlob)
+    audio.src = audioUrl;
 
     //верстка  сообщения  через DOM
     const li = document.createElement('li');
@@ -206,8 +208,8 @@ voiceMessageBtn.addEventListener('click', async () => {
         });
         mediaRecorder.onstop = () => {
             const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-            const audioUrl = URL.createObjectURL(audioBlob)
-            socket.emit('voice message', audioUrl)
+            //  const audioUrl = URL.createObjectURL(audioBlob)
+            socket.emit('voice message', audioBlob)
             // createAudioMessasge()
 
         }
