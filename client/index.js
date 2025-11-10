@@ -61,11 +61,7 @@ function changeTimeLine(elem, audio) {
 
 }
 
-function createTxtMessage(msg) {
-    msgInp.value = ''
-    const { firstname, message } = msg
-    let date = new Date;
-
+function createDOMTextMessage(firstname, message, date) {
     const li = document.createElement('li')
     li.classList.add('message')
     const txtDiv = document.createElement('div')
@@ -89,7 +85,15 @@ function createTxtMessage(msg) {
     timeSpan.innerText = date.getMinutes() > 10 ? `${date.getHours()}:${date.getMinutes()}` : `${date.getHours()}:0${date.getMinutes()}`
 }
 
-function createDOMMesage(audio, firstname, date) {
+function createTxtMessage(msg) {
+    msgInp.value = ''
+    const { firstname, message } = msg
+    let date = new Date;
+    createDOMTextMessage(firstname, message, date)
+}
+
+
+function createDOMAudioMesage(audio, firstname, date) {
 
 
     // Создание <li> и основной контейнер
@@ -115,7 +119,6 @@ function createDOMMesage(audio, firstname, date) {
     const img = document.createElement('img');
     img.src = './assets/play.svg';
     img.alt = '';
-    img.id = ''
 
     //Аудио тег
 
@@ -127,11 +130,9 @@ function createDOMMesage(audio, firstname, date) {
     const progress = document.createElement('div');
     progress.classList.add('progress');
 
-
     // Длительность (справа)
     const timeSpan = document.createElement('span');
     timeSpan.classList.add('duration');
-
 
     // Собираем всё вместе
     playPauseBtn.appendChild(img);
@@ -148,6 +149,7 @@ function createDOMMesage(audio, firstname, date) {
     timeSpan.innerText = date.getMinutes() > 9 ? `${date.getHours()}:${date.getMinutes()}` : `${date.getHours()}:0${date.getMinutes()}`
 
     playPauseBtn.addEventListener('click', () => {
+        console.log(isMIcroOn)
         if (isMIcroOn) {
             audio.pause()
 
@@ -157,6 +159,8 @@ function createDOMMesage(audio, firstname, date) {
 
         }
     })
+
+
 
     audio.addEventListener('ended', () => {
         img.src = './assets/play.svg';
@@ -184,8 +188,7 @@ function createAudioMessasge(msg) {
     const newBlob = new Blob([message], { type: 'audio/webm' });
     const audioUrl = URL.createObjectURL(newBlob)
     audio.src = audioUrl;
-
-    createDOMMesage(audio, firstname, date)
+    createDOMAudioMesage(audio, firstname, date)
 
 }
 //events
