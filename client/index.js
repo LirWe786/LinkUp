@@ -119,7 +119,7 @@ function createAudioMessasge(msg) {
     voicePlayBtn.id = 'voice-btn';
 
     const voiceImg = document.createElement('img');
-    voiceImg.src = './assets/play.svg';
+    voiceImg.src = './assets/play_white.svg';
     voiceImg.alt = '';
     voiceImg.id = 'voice-img';
     voiceImg.classList.add('voice-img');
@@ -170,15 +170,15 @@ function createAudioMessasge(msg) {
         }
     })
     audio.addEventListener('ended', () => {
-        voiceImg.src = './assets/play.svg';
+        voiceImg.src = './assets/play_white.svg';
         isMIcroOn = false;
     })
     audio.addEventListener('play', () => {
-        voiceImg.src = './assets/pause.svg';
+        voiceImg.src = './assets/pause_white.svg';
         isMIcroOn = true;
     })
     audio.addEventListener('pause', () => {
-        voiceImg.src = './assets/play.svg';
+        voiceImg.src = './assets/play_white.svg';
         isMIcroOn = false;
     })
 

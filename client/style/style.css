@@ -381,82 +381,72 @@ input::placeholder {
     gap: 5px;
 }
 
-/* #side-panel {
+
+/* audio */
+
+.audio-message {
     display: flex;
-    flex-direction: column;
-    min-width: 50px;
-    width: 101px;
-    height: 845px;
     align-items: center;
-    margin: 0 auto;
-
-
-} 
- 
-.logo-div {
-    min-width: 50px;
-    width: 100px;
-    height: 113px;
-    display: flex;
-    align-items: start;
-    justify-content: center;
-
+    background-color: aliceblue;
+    border-radius: 12px;
+    padding: 8px 12px;
+    width: 250px;
+    height: 40px;
+    margin: 4px 0;
+    border-bottom: 2px solid #c2c3c3;
 }
 
-#logo {
-    min-width: 20px;
-    margin: 18px;
-    width: 48px;
-    height: 48px;
-} 
-
- .account-div {
-    min-width: 50px;
-    width: 100px;
-    height: 718px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-}
-
-.settings-div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-width: 50px;
-    width: 100px;
-    height: 113px;
-}
-
-.side-panel-btn {
-    width: 80px;
-    height: 50px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    background-color: #3366ff;
-
+.play-pause-btn {
+    background: none;
     border: none;
-    text-decoration: none;
-    color: #AABBBD;
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 8px;
+}
 
-    img {
-        min-width: 5px;
-        min-height: 5px;
-        width: 32px;
-        height: 32px;
-    }
+.progress-bar {
+    flex-grow: 1;
+    height: 4px;
+    background-color: #ccc;
+    border-radius: 2px;
+    overflow: hidden;
+}
 
+.progress {
+    height: 100%;
+    background-color: #0582ca;
+    width: 30%;
+    /* будет меняться через JS */
+}
+
+.duration {
+    font-size: 12px;
+    color: #666;
+    margin-left: 8px;
 }
 
 
-#account-btn {
-    margin-top: 40px;
-}  */
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* audio */
 #search-img {
     min-width: fit-content;
     width: 32px;
@@ -465,12 +455,12 @@ input::placeholder {
 
 .message {
     min-width: 50px;
-    padding: 10px 20px 10px 2%;
+    padding: 0 0 5px 5px;
     background-color: aliceblue;
     border-radius: 12px;
     display: flex;
     border-bottom: 2px solid #c2c3c3;
-    /* border: 1px 1px 1px 0 solid black; */
+    
     align-items: center;
 }
 
@@ -504,14 +494,15 @@ input::placeholder {
 }
 
 .message-name {
+    margin-left: 15px;
     font-size: 20px;
     padding-bottom: 10px;
     color: #0582ca;
 }
 
 .message-text {
-    font-size: 18px;
-    color: #AABBBD;
+    font-size: 16px;
+    color: black;
     height: 50%;
 
 }
@@ -526,11 +517,11 @@ input::placeholder {
 .voice-play-btn {
     min-width: 20px;
     min-height: 20px;
-    width: 48px;
-    height: 48px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     border: none;
-    background-color: #AABBBD;
+    background-color: #0582ca;
 
     display: flex;
     align-items: center;
@@ -538,15 +529,11 @@ input::placeholder {
 }
 
 .voice-img {
-    width: 62%;
+    width: 28px;
+    ;
+    height: inherit;
     min-width: 15px;
 }
-
-.voice-img:hover {
-    width: 62%;
-
-}
-
 
 
 .voice-length-div {
