@@ -94,8 +94,6 @@ function createTxtMessage(msg) {
 
 
 function createDOMAudioMesage(audio, firstname, date) {
-
-
     // Создание <li> и основной контейнер
     const container = document.querySelector('#chat-display')
 

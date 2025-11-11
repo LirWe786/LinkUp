@@ -29,7 +29,7 @@ input:hover {
 }
 
 input::placeholder {
-    font-weight: bold;
+
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -164,6 +164,9 @@ input::placeholder {
     background-color: aliceblue;
     border: none;
 
+}
+#menu-btn:hover{
+    cursor: pointer;
 }
 
 #menu-btn-img {
