@@ -61,11 +61,7 @@ function changeTimeLine(elem, audio) {
 
 }
 
-function createTxtMessage(msg) {
-    msgInp.value = ''
-    const { firstname, message } = msg
-    let date = new Date;
-
+function createDOMTextMessage(firstname, message, date) {
     const li = document.createElement('li')
     li.classList.add('message')
     const txtDiv = document.createElement('div')
@@ -89,102 +85,112 @@ function createTxtMessage(msg) {
     timeSpan.innerText = date.getMinutes() > 10 ? `${date.getHours()}:${date.getMinutes()}` : `${date.getHours()}:0${date.getMinutes()}`
 }
 
-function createAudioMessasge(msg) {
-    audioChunks = [];
+function createTxtMessage(msg) {
+    msgInp.value = ''
     const { firstname, message } = msg
-
     let date = new Date;
-    let audio = document.createElement('audio');
+    createDOMTextMessage(firstname, message, date)
+}
 
-    const newBlob = new Blob([message], { type: 'audio/webm' });
-    const audioUrl = URL.createObjectURL(newBlob)
-    audio.src = audioUrl;
 
-    //верстка  сообщения  через DOM
+function createDOMAudioMesage(audio, firstname, date) {
+    // Создание <li> и основной контейнер
+    const container = document.querySelector('#chat-display')
+
     const li = document.createElement('li');
-    li.classList.add('message', 'voice-message');
-    li.appendChild(audio)
+    li.classList.add('audio-container');
 
-    const txtDiv = document.createElement('div');
-    txtDiv.classList.add('message-text-div');
-
+    // Имя отправителя
     const nameSpan = document.createElement('span');
     nameSpan.classList.add('message-name');
+    nameSpan.textContent = 'Anonimus';
 
-    const msgDiv = document.createElement('div');
-    msgDiv.classList.add('message-text', 'message-length');
+    // Внутренний контейнер сообщения
+    const audioMessage = document.createElement('div');
+    audioMessage.classList.add('audio-message');
 
-    const voicePlayBtn = document.createElement('button');
-    voicePlayBtn.classList.add('voice-play-btn');
-    voicePlayBtn.id = 'voice-btn';
+    // Кнопка play/pause
+    const playPauseBtn = document.createElement('button');
+    playPauseBtn.classList.add('play-pause-btn');
 
-    const voiceImg = document.createElement('img');
-    voiceImg.src = './assets/play.svg';
-    voiceImg.alt = '';
-    voiceImg.id = 'voice-img';
-    voiceImg.classList.add('voice-img');
+    // Иконка play
+    const img = document.createElement('img');
+    img.src = './assets/play.svg';
+    img.alt = '';
 
-    voicePlayBtn.appendChild(voiceImg);
+    //Аудио тег
 
-    const voiceLengthDiv = document.createElement('div');
-    voiceLengthDiv.classList.add('voice-length-div');
+    // Прогресс-бар
+    const progressBar = document.createElement('div');
+    progressBar.classList.add('progress-bar');
 
-    const timeDiv = document.createElement('div');
-    timeDiv.classList.add('message-time-div');
+    // Прогресс внутри бара
+    const progress = document.createElement('div');
+    progress.classList.add('progress');
 
+    // Длительность (справа)
     const timeSpan = document.createElement('span');
-    timeSpan.classList.add('timer-span');
+    timeSpan.classList.add('duration');
 
-    const lengthLine = document.createElement("div");
-    lengthLine.classList.add('lengthLine');
+    // Собираем всё вместе
+    playPauseBtn.appendChild(img);
+    progressBar.appendChild(progress);
+    audioMessage.appendChild(playPauseBtn);
+    audioMessage.appendChild(progressBar);
+    audioMessage.appendChild(timeSpan);
 
-    const timeLine = document.createElement('div');
-    timeLine.classList.add('timeLine');
-
-    //вложение элементов друг в друга
-    chatDiv.appendChild(li);
-    li.appendChild(txtDiv);
-    txtDiv.appendChild(nameSpan);
-    txtDiv.appendChild(msgDiv);
-    li.appendChild(timeDiv);
-    timeDiv.appendChild(timeSpan);
-    msgDiv.appendChild(voicePlayBtn);
-    msgDiv.appendChild(voiceLengthDiv);
-    voiceLengthDiv.appendChild(lengthLine)
-    lengthLine.appendChild(timeLine)
-
+    li.appendChild(nameSpan);
+    li.appendChild(audioMessage);
+    container.appendChild(li)
 
     nameSpan.innerText = firstname;
     timeSpan.innerText = date.getMinutes() > 9 ? `${date.getHours()}:${date.getMinutes()}` : `${date.getHours()}:0${date.getMinutes()}`
 
-    //events for audio
-
-    voicePlayBtn.addEventListener('click', () => {
+    playPauseBtn.addEventListener('click', () => {
+        console.log(isMIcroOn)
         if (isMIcroOn) {
             audio.pause()
 
         } else {
             audio.play()
-            changeTimeLine(timeLine, audio)
+            changeTimeLine(progress, audio)
 
         }
     })
+
+
+
     audio.addEventListener('ended', () => {
-        voiceImg.src = './assets/play.svg';
+        img.src = './assets/play.svg';
         isMIcroOn = false;
     })
     audio.addEventListener('play', () => {
-        voiceImg.src = './assets/pause.svg';
+        img.src = './assets/pause.svg';
         isMIcroOn = true;
     })
     audio.addEventListener('pause', () => {
-        voiceImg.src = './assets/play.svg';
+        img.src = './assets/play.svg';
         isMIcroOn = false;
     })
 
+}
+
+function createAudioMessasge(msg) {
+    audioChunks = [];
+    let date = new Date;
+    const { firstname, message } = msg
+
+
+    let audio = document.createElement('audio');
+
+    const newBlob = new Blob([message], { type: 'audio/webm' });
+    const audioUrl = URL.createObjectURL(newBlob)
+    audio.src = audioUrl;
+    createDOMAudioMesage(audio, firstname, date)
 
 }
 //events
+
 voiceMessageBtn.addEventListener('click', () => {
     timerState = true;
     voiceMessageBack.style.display = 'block';
