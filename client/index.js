@@ -1,5 +1,6 @@
 const voiceMessageBack = document.getElementById('voice-message-back');
 const voiceMessageBtn = document.getElementById('voice-message-btn');
+const videoMsgBtn = document.getElementById('video-message-btn')
 const timerSpan = document.getElementById('timer-span');
 const chatDiv = document.getElementById('chat-display')
 const form = document.getElementById('chat-form');
@@ -10,6 +11,7 @@ const socket = io();
 let timerState = false;
 let mediaRecorder;
 let audioChunks = [];
+let videoChunks = [];
 let isMIcroOn = false;
 
 let name = prompt('Ваше имя')
@@ -179,8 +181,6 @@ function createAudioMessasge(msg) {
     audioChunks = [];
     let date = new Date;
     const { firstname, message } = msg
-
-
     let audio = document.createElement('audio');
 
     const newBlob = new Blob([message], { type: 'audio/webm' });
@@ -220,6 +220,26 @@ voiceMessageBtn.addEventListener('click', async () => {
 
         }
         mediaRecorder.start();
+    } catch (error) {
+        console.log(error)
+    }
+})
+videoMsgBtn.addEventListener('click', async () => {
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.addEventListener('dataavailable', (e) => {
+            videoChunks.push(e.data);
+
+        });
+        mediaRecorder.addEventListener("stop" ,() => {
+           const blob  = new Blob(videoChunks,{type:'video/webm'})
+           videoChunks = [];
+           socket.emit('video message', blob)
+        })
+           
+        mediaRecorder.start()
+
     } catch (error) {
         console.log(error)
     }
