@@ -18,6 +18,14 @@ let name = prompt('Ваше имя')
 socket.emit('set username', name)
 
 //функции
+
+
+function stopVoiceMessage() {
+    timerState = true;
+    voiceMessageBack.style.display = 'block';
+    timer();
+}
+
 function round(num) {
     if (num < 10) {
         return `0${num}`
@@ -95,7 +103,7 @@ function createTxtMessage(msg) {
 }
 
 
-function createDOMAudioMesage(audio, firstname, date) {
+function createDOMAudioMessage(audio, firstname, date) {
     // Создание <li> и основной контейнер
     const container = document.querySelector('#chat-display')
 
@@ -119,8 +127,6 @@ function createDOMAudioMesage(audio, firstname, date) {
     const img = document.createElement('img');
     img.src = './assets/play.svg';
     img.alt = '';
-
-    //Аудио тег
 
     // Прогресс-бар
     const progressBar = document.createElement('div');
@@ -177,7 +183,7 @@ function createDOMAudioMesage(audio, firstname, date) {
 
 }
 
-function createAudioMessasge(msg) {
+function createAudioMessage(msg) {
     audioChunks = [];
     let date = new Date;
     const { firstname, message } = msg
@@ -186,16 +192,10 @@ function createAudioMessasge(msg) {
     const newBlob = new Blob([message], { type: 'audio/webm' });
     const audioUrl = URL.createObjectURL(newBlob)
     audio.src = audioUrl;
-    createDOMAudioMesage(audio, firstname, date)
+    createDOMAudioMessage(audio, firstname, date)
 
 }
 //events
-
-voiceMessageBtn.addEventListener('click', () => {
-    timerState = true;
-    voiceMessageBack.style.display = 'block';
-    timer();
-})
 
 voiceMessageBack.addEventListener('click', () => {
     timerState = false;
@@ -204,6 +204,7 @@ voiceMessageBack.addEventListener('click', () => {
 })
 
 voiceMessageBtn.addEventListener('click', async () => {
+    stopVoiceMessage()
 
     try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -214,9 +215,7 @@ voiceMessageBtn.addEventListener('click', async () => {
         });
         mediaRecorder.onstop = () => {
             const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-            //  const audioUrl = URL.createObjectURL(audioBlob)
             socket.emit('voice message', audioBlob)
-            // createAudioMessasge()
 
         }
         mediaRecorder.start();
@@ -232,12 +231,12 @@ videoMsgBtn.addEventListener('click', async () => {
             videoChunks.push(e.data);
 
         });
-        mediaRecorder.addEventListener("stop" ,() => {
-           const blob  = new Blob(videoChunks,{type:'video/webm'})
-           videoChunks = [];
-           socket.emit('video message', blob)
+        mediaRecorder.addEventListener("stop", () => {
+            const blob = new Blob(videoChunks, { type: 'video/webm' })
+            videoChunks = [];
+            socket.emit('video message', blob)
         })
-           
+
         mediaRecorder.start()
 
     } catch (error) {
@@ -267,6 +266,6 @@ socket.on('chat message', (msg) => {
 })
 
 socket.on('voice message', (msg) => {
-    createAudioMessasge(msg)
+    createAudioMessage(msg)
 })
 
